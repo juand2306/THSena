@@ -1,9 +1,14 @@
-from ModuloRequisicion import *
-from PaginaRequisicion import *
-from inicio_secion import *
+class Candidato:
+    def __init__(self, nombre, correo, contraseña):
+        self.nombre = nombre
+        self.correo = correo
+        self.contraseña = contraseña
 
-usuario = None
-plataforma_busqueda_empleo = ModuloRequisicion()
+class Empresa:
+    def __init__(self, nombre, correo, contraseña):
+        self.nombre = nombre
+        self.correo = correo
+        self.contraseña = contraseña
 
 def iniciar_sesion():
     print("=== Iniciar Sesión ===")
@@ -18,6 +23,30 @@ def iniciar_sesion():
     else:
         print("Tipo de usuario inválido.")
         return None
+
+def main():
+    usuario = iniciar_sesion()
+    if usuario is not None:
+        print("¡Inicio de sesión exitoso!")
+        while True:
+            mostrar_menu(usuario)
+            opcion = input("Seleccione una opción: ")
+
+            if opcion == "1":
+                if isinstance(usuario, Candidato):
+                    buscar_requisiciones(usuario)
+                else:
+                    print("Opción inválida. Intente nuevamente.")
+            elif opcion == "2":
+                if isinstance(usuario, Empresa):
+                    publicar_requisicion(usuario)
+                else:
+                    print("Opción inválida. Intente nuevamente.")
+            elif opcion == "3":
+                print("¡Hasta luego!")
+                break
+            else:
+                print("Opción inválida. Intente nuevamente.")
 
 def mostrar_menu(usuario):
     print("=== Menú ===")
@@ -48,33 +77,9 @@ def publicar_requisicion(empresa):
     ubicacion = input("Ingrese la ubicación: ")
     salario = input("Ingrese el salario: ")
 
-    requisicion = ModuloRequisicion.crearRequisicion(titulo_puesto, descripcion, responsabilidades, habilidades_requeridas, experiencia_requerida, requisitos_educativos, competencias_necesarias, ubicacion, salario)
-    Empresa.publicarRequisicion(requisicion)
+    requisicion = empresa.crearRequisicion(titulo_puesto, descripcion, responsabilidades, habilidades_requeridas, experiencia_requerida, requisitos_educativos, competencias_necesarias, ubicacion, salario)
+    empresa.publicarRequisicion(requisicion)
     print("Requisición publicada correctamente.")
-
-def main():
-    usuario = iniciar_sesion()
-    if usuario is not None:
-        print("¡Inicio de sesión exitoso!")
-        while True:
-            mostrar_menu(usuario)
-            opcion = input("Seleccione una opción: ")
-
-            if opcion == "1":
-                if isinstance(usuario, Candidato):
-                    buscar_requisiciones(usuario)
-                else:
-                    print("Opción inválida. Intente nuevamente.")
-            elif opcion == "2":
-                if isinstance(usuario, Empresa):
-                    publicar_requisicion(usuario)
-                else:
-                    print("Opción inválida. Intente nuevamente.")
-            elif opcion == "3":
-                print("¡Hasta luego!")
-                break
-            else:
-                print("Opción inválida. Intente nuevamente.")
 
 if __name__ == "__main__":
     main()
